@@ -7,7 +7,9 @@ import (
 	"google.golang.org/grpc/stats"
 )
 
-type rpcStatKey struct{}
+type contextKeyRpcStatMarker struct{}
+
+var contextKeyRpcStat = &contextKeyRpcStatMarker{}
 
 type RpcStat struct {
 	SentCount uint64
@@ -18,13 +20,13 @@ type RpcStat struct {
 
 // SetRpcStat sets intstance of RpcStat to context.
 func SetRpcStat(ctx context.Context, s *RpcStat) context.Context {
-	return context.WithValue(ctx, rpcStatKey{}, s)
+	return context.WithValue(ctx, contextKeyRpcStat, s)
 }
 
 // GetRpcStat returns intstance of RpcStat from the context.
 // If there is no RpcStat is set, returns nil.
 func GetRpcStat(ctx context.Context) *RpcStat {
-	if v, ok := ctx.Value(rpcStatKey{}).(*RpcStat); ok {
+	if v, ok := ctx.Value(contextKeyRpcStat).(*RpcStat); ok {
 		return v
 	}
 	return nil
