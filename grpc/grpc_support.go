@@ -35,43 +35,29 @@ func HitGrpc(ctx context.Context, f HitGrpcFunc) (*vegetahelper.HitResult, error
 	return result, err
 }
 
+var code2statusTable = map[codes.Code]uint16{
+	codes.OK:                 http.StatusOK,
+	codes.Canceled:           http.StatusInternalServerError,
+	codes.Unknown:            http.StatusInternalServerError,
+	codes.InvalidArgument:    http.StatusBadRequest,
+	codes.DeadlineExceeded:   http.StatusRequestTimeout,
+	codes.NotFound:           http.StatusNotFound,
+	codes.AlreadyExists:      http.StatusConflict,
+	codes.PermissionDenied:   http.StatusForbidden,
+	codes.ResourceExhausted:  http.StatusInternalServerError,
+	codes.FailedPrecondition: http.StatusPreconditionFailed,
+	codes.Aborted:            http.StatusInternalServerError,
+	codes.OutOfRange:         http.StatusInternalServerError,
+	codes.Unimplemented:      http.StatusNotImplemented,
+	codes.Internal:           http.StatusInternalServerError,
+	codes.Unavailable:        http.StatusServiceUnavailable,
+	codes.DataLoss:           http.StatusInternalServerError,
+	codes.Unauthenticated:    http.StatusUnauthorized,
+}
+
 func MapCode2Status(code codes.Code) uint16 {
-	switch code {
-	case codes.OK:
-		return http.StatusOK
-	case codes.Canceled:
-		return http.StatusInternalServerError
-	case codes.Unknown:
-		return http.StatusInternalServerError
-	case codes.InvalidArgument:
-		return http.StatusBadRequest
-	case codes.DeadlineExceeded:
-		return http.StatusRequestTimeout
-	case codes.NotFound:
-		return http.StatusNotFound
-	case codes.AlreadyExists:
-		return http.StatusConflict
-	case codes.PermissionDenied:
-		return http.StatusForbidden
-	case codes.ResourceExhausted:
-		return http.StatusInternalServerError
-	case codes.FailedPrecondition:
-		return http.StatusPreconditionFailed
-	case codes.Aborted:
-		return http.StatusInternalServerError
-	case codes.OutOfRange:
-		return http.StatusInternalServerError
-	case codes.Unimplemented:
-		return http.StatusNotImplemented
-	case codes.Internal:
-		return http.StatusInternalServerError
-	case codes.Unavailable:
-		return http.StatusServiceUnavailable
-	case codes.DataLoss:
-		return http.StatusInternalServerError
-	case codes.Unauthenticated:
-		return http.StatusUnauthorized
-	default:
-		return http.StatusInternalServerError
+	if v, ok := code2statusTable[code]; ok {
+		return v
 	}
+	return http.StatusInternalServerError
 }

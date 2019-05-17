@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"errors"
+	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -62,4 +63,10 @@ func TestHitGrpc(t *testing.T) {
 		assert.Equal(uint64(123), res.RecvBytes)
 		assert.Equal(uint64(456), res.SentBytes)
 	})
+}
+
+func TestMapCode2Status(t *testing.T) {
+	assert := assert.New(t)
+
+	assert.Equal(uint16(http.StatusInternalServerError), MapCode2Status(codes.Code(54321)))
 }

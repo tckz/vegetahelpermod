@@ -44,7 +44,6 @@ func TestRateFlagSet(t *testing.T) {
 		assert.Equal(1000, rate.Freq)
 		assert.Equal(2*time.Minute, rate.Per)
 	})
-
 }
 
 func TestRateFlagString(t *testing.T) {
