@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/tckz/vegetahelper"
+	vegetahelper "github.com/tckz/vegetahelpermod"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
