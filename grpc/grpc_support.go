@@ -35,6 +35,8 @@ func HitGrpc(ctx context.Context, f HitGrpcFunc) (*vegetahelper.HitResult, error
 	return result, err
 }
 
+var waoTable = map[codes.Code]uint16{}
+
 var code2statusTable = map[codes.Code]uint16{
 	codes.OK:                 http.StatusOK,
 	codes.Canceled:           http.StatusInternalServerError,
