@@ -1,4 +1,4 @@
-module github.com/tckz/vegetahelpermod
+module github.com/tckz/vegetahelper
 
 go 1.12
 
